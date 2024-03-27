@@ -11,7 +11,7 @@ export function AddMovieForm({movieList,setMovies}:{movieList:Movie[],setMovies:
   const [description, setDesc] = useState('')
 
   function onSubmit() {
-    let tmpList = movieList
+    let tmpList = [...movieList]
     
     let tmpMovie = {
       "id": newMovieId(),

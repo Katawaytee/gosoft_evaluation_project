@@ -2,6 +2,7 @@ import { StarRating, Button } from "shared/components";
 
 import { Movie, getAvgRating } from "movies/MovieModel";
 import { getInitialMovies } from "data/initial";
+import { useState } from "react";
 
 // const movie = getInitialMovies()[0];
 
@@ -9,16 +10,24 @@ export const MovieCard = ({movie,movieList,setMovies}:{movie:Movie,movieList:Mov
   const movieRating = getAvgRating(movie);
 
   function onClickDelete() {
-    let tmpList = movieList
-    console.log(tmpList)
+    let tmpList = [...movieList]
     for (let i = 0; i < tmpList.length; i++) {
       if (tmpList[i].id == movie.id) {
-        console.log(tmpList[i])
         tmpList.splice(i,1)
         break
       }
     }
-    console.log(movieList.length)
+    setMovies(tmpList)
+  }
+
+  function onClickRating(newRating:number) {
+    let tmpList = [...movieList]
+    for (let i = 0; i < tmpList.length; i++) {
+      if (tmpList[i].id == movie.id) {
+        tmpList[i].ratings.push(newRating)
+        break
+      }
+    }
     setMovies(tmpList)
   }
 
@@ -38,7 +47,7 @@ export const MovieCard = ({movie,movieList,setMovies}:{movie:Movie,movieList:Mov
         <div className="clearfix">
           <div className="float-left mt-1">
             {/* TODO: Implement rating functionality */}
-            <StarRating rating={movieRating} onRate={() => console.error('rating not implemented yet')} />
+            <StarRating rating={movieRating} onRate={onClickRating} />
           </div>
           <div
             data-testid="movie-rating"
