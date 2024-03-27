@@ -1,12 +1,26 @@
 import { StarRating, Button } from "shared/components";
 
-import { getAvgRating } from "movies/MovieModel";
+import { Movie, getAvgRating } from "movies/MovieModel";
 import { getInitialMovies } from "data/initial";
 
-const movie = getInitialMovies()[0];
+// const movie = getInitialMovies()[0];
 
-export const MovieCard = () => {
+export const MovieCard = ({movie,movieList,setMovies}:{movie:Movie,movieList:Movie[],setMovies:Function}) => {
   const movieRating = getAvgRating(movie);
+
+  function onClickDelete() {
+    let tmpList = movieList
+    console.log(tmpList)
+    for (let i = 0; i < tmpList.length; i++) {
+      if (tmpList[i].id == movie.id) {
+        console.log(tmpList[i])
+        tmpList.splice(i,1)
+        break
+      }
+    }
+    console.log(movieList.length)
+    setMovies(tmpList)
+  }
 
   return (
     <div data-testid={`movie-item-${movie.id}`}>
@@ -18,7 +32,7 @@ export const MovieCard = () => {
           {movie.description}
         </p>
         {/* TODO: Implement delete functionality */}
-        <Button>Delete</Button>
+        <Button onClick={onClickDelete}>Delete</Button>
       </div>
       <div className="card-footer">
         <div className="clearfix">
